@@ -35,8 +35,8 @@ function populateTable() {
             <td class="colorCell">${phone.color}</td>
             <td>${phone.battery}</td>
             <td>
-                <button class="btn btn-warning edit" data-bs-toggle="modal" data-bs-target="#phoneModal">Edit</button>
-                <button class="btn btn-danger delete">Delete</button>
+                <button class="btn btn-warning mt-1 edit" data-bs-toggle="modal" data-bs-target="#phoneModal"><ion-icon name="create-outline"></ion-icon></button>
+                <button class="btn btn-danger mt-1 delete "><ion-icon name="trash-outline"></ion-icon></button>
             </td>
         `;
 
