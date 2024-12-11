@@ -7,23 +7,32 @@ let phones = JSON.parse(localStorage.getItem('phones')) || [];
 function saveDataLocalStorage() {
     localStorage.setItem('phones', JSON.stringify(phones));
 }
+getId('search').addEventListener('keyup', function () {
+    let searchTerm = this.value;
+    populateTable(searchTerm);
+});
 
-function populateTable() {
+
+function populateTable(searchTerm = '') {
     let tableList = getId('phone-list');
     tableList.innerHTML = '';
 
-    if (phones.length === 0) {
-        let noRec = document.createElement('tr');
-        noRec.innerHTML = `<td class="text-center fw-bolder" colspan="10">No Records</td>`
+    let filteredPhones = phones.filter(phone => {
+        return Object.values(phone).some(value =>
+            value.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    });
 
+    if (filteredPhones.length === 0) {
+        let noRec = document.createElement('tr');
+        noRec.innerHTML = `<td class="text-center fw-bolder" colspan="10">No Records</td>`;
         tableList.append(noRec);
     }
 
-    for (let i = 0; i < phones.length; i++) {
-        let phone = phones[i];
+    for (let i = 0; i < filteredPhones.length; i++) {
+        let phone = filteredPhones[i];
 
         let Rows = document.createElement('tr');
-
         Rows.innerHTML = `
             <td>${i + 1}</td>
             <td>${phone.model}</td>
@@ -35,14 +44,17 @@ function populateTable() {
             <td class="colorCell">${phone.color}</td>
             <td>${phone.battery}</td>
             <td>
-                <button class="btn btn-warning mt-1 edit" data-bs-toggle="modal" data-bs-target="#phoneModal"><ion-icon name="create-outline"></ion-icon></button>
-                <button class="btn btn-danger mt-1 delete "><ion-icon name="trash-outline"></ion-icon></button>
+                <button class="btn btn-warning mt-1 edit" data-bs-toggle="modal" data-bs-target="#phoneModal">
+                    <ion-icon name="create-outline"></ion-icon>
+                </button>
+                <button class="btn btn-danger mt-1 delete">
+                    <ion-icon name="trash-outline"></ion-icon>
+                </button>
             </td>
         `;
 
         let colorCell = Rows.querySelector('.colorCell');
         let color = phone.color.toLowerCase();
-
         if (color === 'black') {
             colorCell.style.backgroundColor = 'Black';
             colorCell.style.color = 'white';
@@ -57,24 +69,23 @@ function populateTable() {
             getId('display').value = phone.display;
             getId('color').value = phone.color;
             getId('battery').value = phone.battery;
-
-            editIndex = [i];
+            editIndex = phones.indexOf(phone);
         });
 
         Rows.querySelector('.delete').addEventListener('click', function () {
-            let cnfrm = confirm('Are you sure want to delete');
+            let cnfrm = confirm('Are you sure you want to delete?');
             if (cnfrm) {
                 showAlert('Deleted successfully', 'danger');
-                phones.splice(i, 1);
+                phones.splice(phones.indexOf(phone), 1);
                 saveDataLocalStorage();
                 populateTable();
             }
-
-        })
+        });
 
         tableList.append(Rows);
     }
 }
+
 
 populateTable();
 

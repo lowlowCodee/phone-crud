@@ -19,11 +19,20 @@
             <div id="alert" class="alert alert d-none" role="alert"></div>
         </div>
         <div class="card">
-            <div class="card-header d-flex justify-content-between">
-                <h2>PHONE CRUD</h2>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#phoneModal">Add
-                    Phone</button>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">PHONE CRUD</h2>
+
+                <div class="d-flex gap-2">
+                    <input class="form-control form-control-sm w-50" id="search" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <button class="btn btn-outline-success btn-sm px-2" type="button" id="search-btn">Search</button>
+                    <button class="btn btn-primary btn-sm px-2" data-bs-toggle="modal" data-bs-target="#phoneModal">
+                        Add Phone
+                    </button>
+                </div>
             </div>
+
+
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered text-center ">
